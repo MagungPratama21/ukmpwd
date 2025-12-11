@@ -15,8 +15,8 @@ Route::post('/pendaftaran', [PendaftaranController::class, 'store'])->name('pend
 Route::get('/status', [MahasiswaController::class, 'status'])->name('status.index');
 Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
 Route::get('/notifikasi/read/{id}', [NotifikasiController::class, 'read'])->name('notifikasi.read');
-Route::get('/register', [MahasiswaController::class, 'create'])->name('register');
+Route::get('/register', [MahasiswaController::class, 'registerPage'])->name('register');
 Route::post('/register', [MahasiswaController::class, 'store']);
-Route::get('/login', [MahasiswaController::class, 'loginForm'])->name('login');
+Route::get('/login', [MahasiswaController::class, 'loginPage'])->name('login');
 Route::post('/login', [MahasiswaController::class, 'login']);
 

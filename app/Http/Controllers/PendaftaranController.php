@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pendaftaran;
+use App\Models\Ukm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class PendaftaranController extends Controller
 {
+    public function create($id)
+    {
+        $ukm = Ukm::findOrFail($id);
+        return view('form', compact('ukm'));
+    }
+
     public function submit(Request $req)
     {
         $req->validate([
