@@ -20,8 +20,9 @@
             <input type="password" name="password" class="form-input" required>
         </div>
 
-        <button class="btn btn-primary" style="width:100%">Login</button>
+        <button class="btn btn-primary" style="width:100%;">Login</button>
     </form>
+    <a href="{{ route('register') }}" class="btn btn-primary" style="width:100%;margin-top:10px;">Register</a>
 
 </div>
 @endsection

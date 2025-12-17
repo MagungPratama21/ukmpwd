@@ -12,7 +12,7 @@ Route::get('/ukm', [UkmController::class, 'index'])->name('ukm.index');
 Route::get('/ukm/{id}', [UkmController::class, 'show'])->name('ukm.show');
 Route::get('/pendaftaran/{id}', [PendaftaranController::class, 'create'])->name('pendaftaran.create');
 Route::post('/pendaftaran', [PendaftaranController::class, 'store'])->name('pendaftaran.store');
-Route::get('/status', [MahasiswaController::class, 'status'])->name('status.index');
+Route::get('/status', [MahasiswaController::class, 'statusPage'])->name('status.index');
 Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
 Route::get('/notifikasi/read/{id}', [NotifikasiController::class, 'read'])->name('notifikasi.read');
 Route::get('/register', [MahasiswaController::class, 'registerPage'])->name('register');

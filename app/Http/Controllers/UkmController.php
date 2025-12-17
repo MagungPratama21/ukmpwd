@@ -15,7 +15,7 @@ class UkmController extends Controller
 
     public function show($id)
     {
-        $ukm = Ukm::where('id_ukm', $id)->firstOrFail();
+        $ukm = Ukm::where('id', $id)->firstOrFail();
 
         return view('ukm.detail', compact('ukm'));
     }
