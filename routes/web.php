@@ -60,3 +60,7 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
         ->name('admin.dashboard');
 });
+
+Route::get('/status', function () {
+    return view('ukm.status');
+})->name('status.index');
