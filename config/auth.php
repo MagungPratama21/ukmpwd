@@ -43,7 +43,12 @@ return [
 
     'mahasiswa' => [
         'driver' => 'session',
-        'provider' => 'mahasiswa',
+        'provider' => 'mahasiswas',
+    ],
+
+    'admin' => [
+        'driver' => 'session',
+        'provider' => 'admins',
     ],
 ],
 
@@ -72,11 +77,17 @@ return [
         'model' => App\Models\User::class,
     ],
 
-    'mahasiswa' => [
+    'mahasiswas' => [
         'driver' => 'eloquent',
         'model' => App\Models\Mahasiswa::class,
     ],
+
+    'admins' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\AdminUkm::class,
+    ],
 ],
+
 
 
     /*

@@ -1,54 +1,96 @@
 @extends('layout')
 
-@section('title', $ukm->Nama_UKM . ' - Detail UKM')
+@section('page-css')
+<link rel="stylesheet" href="{{ asset('detailukm.css') }}?v=999">
+@endsection
 
 @section('content')
+<div class="detail-page">
 
-<section class="section">
-    <div class="container" style="max-width: 800px">
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <span class="badge">
+            <i class="fas fa-tag"></i> {{ $ukm->kategori }}
+        </span>
 
-        <div class="ukm-card" style="overflow:hidden;">
-            
-            <div class="ukm-card-header">
-                <div class="ukm-card-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-            </div>
+        <h1>{{ $ukm->nama }}</h1>
 
-            <div class="ukm-card-body">
-
-                <h2 class="ukm-card-title" style="font-size:2rem; margin-bottom:0.5rem;">
-                    {{ $ukm->Nama_UKM }}
-                </h2>
-
-                <span class="badge-type" style="margin-bottom:1rem; display:inline-block;">
-                    {{ $ukm->Jenis_UKM }}
-                </span>
-
-                <p style="font-size:1rem; color:#6b7280; margin-top:1rem; margin-bottom:2rem;">
-                    {{ $ukm->Deskripsi_UKM }}
-                </p>
-
-                <div class="ukm-card-members" style="margin-bottom:2rem;">
-                    <i class="fas fa-users"></i>
-                    <span>{{ $ukm->Anggota_Aktif_UKM }} Anggota Aktif</span>
-                </div>
-
-                <div class="ukm-card-actions">
-                    @auth('mahasiswa')
-                    <a href="{{ route('pendaftaran.create', $ukm->ID_UKM) }}" class="btn-card btn-green">
-                        <i class="fas fa-paper-plane"></i> Daftar Sekarang
-                    </a>
-                    @endauth
-                    <a href="{{ route('ukm.index') }}" class="btn-card btn-purple">
-                        <i class="fas fa-arrow-left"></i> Kembali
-                    </a>
-                </div>
-
-            </div>
-        </div>
-
+        <p>{{ $ukm->deskripsi }}</p>
     </div>
 </section>
 
+<!-- STATS -->
+<section class="stats-wrap">
+    <div class="container">
+        <div class="stats stats-4">
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <div class="stat-value">{{ $ukm->total_ukm }}</div>
+                <div class="stat-label">Total UKM</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-green">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div class="stat-value stat-green-text">{{ $ukm->jumlah_anggota }}+</div>
+                <div class="stat-label">Anggota Aktif</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-orange">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stat-value stat-orange-text">50+</div>
+                <div class="stat-label">Prestasi</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-blue">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="stat-value stat-blue-text">100+</div>
+                <div class="stat-label">Event / Tahun</div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section">
+    <div class="container">
+        <h2 class="section-title">Profil {{ $ukm->nama }}</h2>
+
+        <div class="about-grid">
+            <div class="about-image">
+                <img src="{{ $ukm->foto_cover ?? 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e' }}">
+            </div>
+
+            <div class="about-content">
+                <h3>Mengembangkan Potensi Mahasiswa</h3>
+                <p>{{ $ukm->deskripsi }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GALERI -->
+<section class="gallery-section">
+    <div class="container">
+        <h2 class="section-title">Kegiatan & Dokumentasi</h2>
+
+        <p class="empty-text">Belum ada dokumentasi kegiatan.</p>
+
+        <a href="{{ route('ukm.index') }}" class="back-link">
+            ← Kembali ke Daftar UKM
+        </a>
+    </div>
+</section>
+
+</div>
 @endsection

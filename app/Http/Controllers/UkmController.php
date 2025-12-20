@@ -15,7 +15,25 @@ class UkmController extends Controller
 
     public function show($id)
     {
-        $ukm = Ukm::where('id', $id)->firstOrFail();
+        // Alias kolom DB biar cocok dengan blade kamu: nama, kategori, deskripsi, jumlah_anggota, dst
+        $ukm = Ukm::query()
+            ->select([
+                'id',
+                'Nama_UKM as nama',
+                'Jenis_UKM as kategori',
+                'Deskripsi_UKM as deskripsi',
+                'Jumlah_Anggota as jumlah_anggota',
+                'Jadwal as jadwal',
+                'Tempat as tempat',
+                'created_at',
+                'updated_at',
+            ])
+            ->where('id', $id)
+            ->firstOrFail();
+
+            $ukm->total_ukm = \App\Models\Ukm::count();
+            $ukm->prestasi = $ukm->prestasi ?? '50';         // sementara kalau kolom belum ada
+            $ukm->kegiatan_tahunan = $ukm->kegiatan_tahunan ?? '100'; // sementara kalau kolom belum ada
 
         return view('ukm.detail', compact('ukm'));
     }
@@ -24,18 +42,27 @@ class UkmController extends Controller
     {
         $q = $request->get('q');
 
-        $data = Ukm::where('nama_ukm', 'LIKE', "%$q%")
-            ->orWhere('kategori', 'LIKE', "%$q%")
-            ->get();
+        // Disesuaikan dengan nama kolom tabel kamu
+        $data = Ukm::query()
+            ->where('Nama_UKM', 'LIKE', "%{$q}%")
+            ->orWhere('Jenis_UKM', 'LIKE', "%{$q}%")
+            ->get([
+                'id',
+                'Nama_UKM as nama',
+                'Jenis_UKM as kategori',
+                'Deskripsi_UKM as deskripsi',
+                'Jumlah_Anggota as jumlah_anggota',
+            ]);
 
         return response()->json($data);
     }
 
     public function store(Request $request)
     {
+        // Disesuaikan dengan kolom tabel kamu
         $request->validate([
-            'nama_ukm' => 'required',
-            'kategori' => 'required'
+            'Nama_UKM' => 'required',
+            'Jenis_UKM' => 'required',
         ]);
 
         return Ukm::create($request->all());
@@ -43,7 +70,8 @@ class UkmController extends Controller
 
     public function update(Request $request, $id)
     {
-        $ukm = Ukm::where('id_ukm', $id)->firstOrFail();
+        // Tabel kamu pakai PK = id, bukan id_ukm
+        $ukm = Ukm::where('id', $id)->firstOrFail();
         $ukm->update($request->all());
 
         return response()->json(['status' => 'updated']);
@@ -51,7 +79,8 @@ class UkmController extends Controller
 
     public function destroy($id)
     {
-        Ukm::where('id_ukm', $id)->delete();
+        // Tabel kamu pakai PK = id, bukan id_ukm
+        Ukm::where('id', $id)->delete();
 
         return response()->json(['status' => 'deleted']);
     }

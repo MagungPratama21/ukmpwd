@@ -9,6 +9,8 @@
 
     <link rel="stylesheet" href="{{ asset('style.css') }}">
 
+    @yield('page-css')
+
     <script>
         function toggleMobileMenu() {
             const nav = document.getElementById('navbar-mobile');

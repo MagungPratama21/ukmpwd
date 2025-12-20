@@ -1,0 +1,148 @@
+/* WRAPPER BIAR FOOTER KEBAWA KE BAWAH */
+.detail-page{
+  min-height: calc(100vh - 360px);
+}
+
+/* CONTAINER */
+.container{
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 20px;
+}
+
+/* HERO */
+.hero{
+  background: linear-gradient(90deg, #4f46e5, #7c3aed);
+  padding: 90px 20px 60px;
+  text-align:center;
+  color:#ffffff;
+}
+
+.hero-content{
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero .badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 14px;
+  border-radius:999px;
+  background: rgba(255,255,255,0.2);
+  font-size:13px;
+}
+
+.hero h1{
+  margin:16px 0 10px;
+  font-size:44px;
+  font-weight:800;
+}
+
+.hero p{
+  max-width:700px;
+  margin:0 auto;
+  font-size:14px;
+  opacity:0.95;
+}
+
+/* STATS */
+.stats-wrap{
+  background:#ffffff;
+  padding:36px 0;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+
+.stat-card{
+  background:#ffffff;
+  border-radius:14px;
+  padding:20px;
+  text-align:center;
+  box-shadow:0 12px 28px rgba(0,0,0,0.1);
+}
+
+/* ICON */
+.stat-icon{
+  width:48px;
+  height:48px;
+  margin:0 auto 12px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  color:#ffffff;
+  background:#6366f1;
+}
+
+.stat-green{ background:#10b981; }
+.stat-orange{ background:#f59e0b; }
+.stat-blue{ background:#3b82f6; }
+
+.stat-value{
+  font-size:22px;
+  font-weight:800;
+}
+
+.stat-label{
+  font-size:12px;
+  color:#6b7280;
+}
+
+/* ABOUT */
+.about-section{
+  padding:60px 0;
+}
+
+.section-title{
+  text-align:center;
+  font-size:28px;
+  margin-bottom:40px;
+}
+
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
+}
+
+.about-image img{
+  width:100%;
+  border-radius:12px;
+}
+
+.about-content h3{
+  margin-bottom:12px;
+}
+
+/* GALERI */
+.gallery-section{
+  padding:60px 0 20px;
+  text-align:center;
+}
+
+.empty-text{
+  color:#6b7280;
+  margin-bottom:30px;
+}
+
+.back-link{
+  color:#4f46e5;
+  text-decoration:none;
+}
+
+/* RESPONSIVE */
+@media (max-width:900px){
+  .stats{ grid-template-columns:repeat(2,1fr); }
+  .about-grid{ grid-template-columns:1fr; }
+}
+
+@media (max-width:520px){
+  .stats{ grid-template-columns:1fr; }
+  .hero h1{ font-size:34px; }
+}
