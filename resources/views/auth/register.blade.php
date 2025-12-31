@@ -53,6 +53,35 @@
                     <input type="password" name="password_mahasiswa" class="form-input" placeholder="Minimal 6 karakter" required>
                 </div>
 
+                <!-- TAMBAHAN FORM BANK -->
+                <div class="form-group">
+                    <label class="form-label">Nama Bank</label>
+                    <input type="text" name="nama_bank" class="form-input" placeholder="Contoh: BCA, BRI, Mandiri">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nomor Rekening Bank</label>
+                    <input type="text" name="no_rekening" class="form-input" placeholder="Masukkan nomor rekening">
+                </div>
+
+                <!-- TAMBAHAN FORM E-WALLET -->
+                <div class="form-group">
+                    <label class="form-label">Jenis E-Wallet</label>
+                    <select name="jenis_ewallet" class="form-input">
+                        <option value="">Pilih E-Wallet</option>
+                        <option value="DANA">DANA</option>
+                        <option value="OVO">OVO</option>
+                        <option value="GoPay">GoPay</option>
+                        <option value="ShopeePay">ShopeePay</option>
+                        <option value="LinkAja">LinkAja</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nomor E-Wallet</label>
+                    <input type="text" name="no_ewallet" class="form-input" placeholder="08xxxxxxxxxx">
+                </div>
+
                 <button type="submit" class="btn btn-lg btn-purple" style="width: 100%; margin-top: 1rem;">
                     <i class="fas fa-user-plus"></i> Buat Akun
                 </button>
