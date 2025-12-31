@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Mahasiswa;
 use App\Models\Pendaftaran;
-use App\Models\AdminUkm;
 use Illuminate\Http\Request;
 
 class MahasiswaController extends Controller
@@ -26,8 +25,7 @@ class MahasiswaController extends Controller
             'password_mahasiswa'  => 'required|min:6',
         ]);
 
-        $data['password_mahasiswa'] = bcrypt($data['password_mahasiswa']);
-
+        // Password akan otomatis di-hash oleh mutator setPasswordMahasiswaAttribute di model
         Mahasiswa::create($data);
 
         return redirect()->route('login')->with('success', 'Akun berhasil dibuat.');
@@ -40,82 +38,56 @@ class MahasiswaController extends Controller
 
     public function login(Request $req)
     {
-        $req->validate([
-            'email'    => 'required|email',
-            'password' => 'required'
-        ]);
-
-        $email = strtolower(trim($req->email));
-        $password = $req->password;
-
-        // 1) ADMIN LOGIN (domain admin)
-        if (str_ends_with($email, '@admin.uad.ac.id')) {
-
-            $admin = AdminUkm::where('email', $email)->first();
-
-            if (!$admin) {
-                return back()->withErrors([
-                    'email' => 'Akun admin tidak ditemukan. Pastikan email admin sudah ada di tabel admin_ukm.'
-                ])->withInput();
-            }
-
-            if (!password_verify($password, $admin->password)) {
-                return back()->withErrors([
-                    'email' => 'Password admin salah.'
-                ])->withInput();
-            }
-
-            session([
-                'admin_id' => $admin->id,
-                'admin_email' => $admin->email,
-                'role' => 'admin',
+        try {
+            // Validasi input
+            $validated = $req->validate([
+                'email'    => 'required|email',
+                'password' => 'required'
             ]);
 
-            return redirect()->route('admin.dashboard')->with('success', 'Login admin berhasil.');
-        }
+            // Cari mahasiswa berdasarkan email
+            $mahasiswa = Mahasiswa::where('email_mahasiswa', $validated['email'])->first();
 
-        // 2) MAHASISWA LOGIN (domain webmail)
-        if (str_ends_with($email, '@webmail.uad.ac.id')) {
-
-            $mahasiswa = Mahasiswa::where('email_mahasiswa', $email)->first();
-
+            // Cek apakah mahasiswa ditemukan
             if (!$mahasiswa) {
-                return back()->withErrors([
-                    'email' => 'Akun mahasiswa tidak ditemukan. Pastikan email sudah terdaftar.'
-                ])->withInput();
+                return back()
+                    ->withInput($req->only('email'))
+                    ->withErrors(['email' => 'Email tidak terdaftar.']);
             }
 
-            if (!password_verify($password, $mahasiswa->password_mahasiswa)) {
-                return back()->withErrors([
-                    'email' => 'Password mahasiswa salah.'
-                ])->withInput();
+            // Verifikasi password
+            if (!password_verify($validated['password'], $mahasiswa->password_mahasiswa)) {
+                return back()
+                    ->withInput($req->only('email'))
+                    ->withErrors(['password' => 'Password yang Anda masukkan salah.']);
             }
 
-            session([
-                'id_mahasiswa' => $mahasiswa->id_mahasiswa,
-                'email_mahasiswa' => $mahasiswa->email_mahasiswa,
-                'role' => 'mahasiswa',
+            // Set session
+            session(['id_mahasiswa' => $mahasiswa->id_mahasiswa]);
+
+            // Redirect dengan pesan sukses
+            return redirect()->route('home')
+                ->with('success', 'Login berhasil! Selamat datang, ' . $mahasiswa->nama_mahasiswa . '.');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Validation error sudah ditangani oleh Laravel
+            throw $e;
+        } catch (\Exception $e) {
+            // Tangani error lainnya (database, dll)
+            \Log::error('Login error: ' . $e->getMessage(), [
+                'email' => $req->email,
+                'trace' => $e->getTraceAsString()
             ]);
 
-            return redirect()->route('status.index')->with('success', 'Login mahasiswa berhasil.');
+            return back()
+                ->withInput($req->only('email'))
+                ->withErrors(['error' => 'Terjadi kesalahan saat proses login. Silakan coba lagi beberapa saat.']);
         }
-
-        // 3) DOMAIN TIDAK VALID
-        return back()->withErrors([
-            'email' => 'Email harus @webmail.uad.ac.id (mahasiswa) atau @admin.uad.ac.id (admin).'
-        ])->withInput();
     }
 
     public function logout()
     {
         session()->forget('id_mahasiswa');
-        session()->forget('email_mahasiswa');
-
-        session()->forget('admin_id');
-        session()->forget('admin_email');
-
-        session()->forget('role');
-
         return redirect('/');
     }
 
@@ -129,6 +101,6 @@ class MahasiswaController extends Controller
 
         $pendaftaran = Pendaftaran::where('id_mahasiswa', $id)->get();
 
-        return view('status', compact('pendaftaran'));
+        return view('ukm.status', compact('pendaftaran'));
     }
 }
