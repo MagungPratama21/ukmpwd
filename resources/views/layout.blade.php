@@ -9,8 +9,6 @@
 
     <link rel="stylesheet" href="{{ asset('style.css') }}">
 
-    @yield('page-css')
-
     <script>
         function toggleMobileMenu() {
             const nav = document.getElementById('navbar-mobile');
@@ -36,16 +34,21 @@
                 <li><a href="{{ route('ukm.index') }}" class="navbar-link">Daftar UKM</a></li>
                 <li><a href="{{ route('status.index') }}" class="navbar-link">Status</a></li>
 
-                @auth('mahasiswa')
+                @if($currentMahasiswa)
                 <li>
-                    <form action="{{ route('logout') }}" method="POST">
+                    <span class="navbar-link" style="color: #fff; cursor: default;">
+                        <i class="fas fa-user"></i> Halo, {{ $currentMahasiswa->nama_mahasiswa }}
+                    </span>
+                </li>
+                <li>
+                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                         @csrf
-                        <button class="btn btn-primary">Logout</button>
+                        <button type="submit" class="btn btn-primary" style="margin-left: 0.5rem;">Logout</button>
                     </form>
                 </li>
                 @else
                 <li><a href="{{ route('login') }}" class="navbar-link">Login</a></li>
-                @endauth
+                @endif
             </ul>
 
             <button class="navbar-toggle" onclick="toggleMobileMenu()">
@@ -58,7 +61,17 @@
             <a href="{{ route('home') }}" class="navbar-mobile-link">Beranda</a>
             <a href="{{ route('ukm.index') }}" class="navbar-mobile-link">Daftar UKM</a>
             <a href="{{ route('status.index') }}" class="navbar-mobile-link">Status</a>
-            <a href="{{ route('login') }}" class="navbar-mobile-link">Login</a>
+            @if($currentMahasiswa)
+                <span class="navbar-mobile-link" style="color: #fff;">
+                    <i class="fas fa-user"></i> Halo, {{ $currentMahasiswa->nama_mahasiswa }}
+                </span>
+                <form action="{{ route('logout') }}" method="POST" style="padding: 0.5rem 1rem;">
+                    @csrf
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Logout</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="navbar-mobile-link">Login</a>
+            @endif
         </div>
     </nav>
 
@@ -109,7 +122,7 @@
         </div>
 
         <div class="footer-bottom">
-            <p>© {{ date('Y') }} UKM Kampus. All Rights Reserved.</p>
+            <p>Â© {{ date('Y') }} UKM Kampus. All Rights Reserved.</p>
         </div>
 
     </footer>

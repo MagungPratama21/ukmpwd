@@ -123,7 +123,7 @@
                     <select name="metode_pembayaran" class="input-area">
                         <option value="">-- Pilih Metode Pembayaran --</option>
                         <option value="transfer">Transfer Bank</option>
-                        <option value="ewallet">E-Wallet</option>
+                        <option value="ewallet">E Wallet</option>
                         <option value="cash">Tunai</option>
                     </select>
 

@@ -25,7 +25,7 @@
                 <i class="fas fa-house"></i> Dashboard
             </a>
 
-            <form method="POST" action="{{ route('admin.logout') }}" style="margin-top:16px;">
+            <form method="POST" action="{{ route('logout') }}" style="margin-top:16px;">
                 @csrf
                 <button style="width:100%;padding:10px;border:none;border-radius:12px;background:#111827;color:#fff;cursor:pointer;">
                     Logout

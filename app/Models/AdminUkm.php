@@ -11,12 +11,16 @@ class AdminUkm extends Model
 
     protected $table = 'admin_ukm';
 
-    public $timestamps = true;
-
     protected $fillable = [
         'id_ukm',
         'nama_admin',
         'email',
         'password',
     ];
+
+    protected $hidden = [
+        'password',
+    ];
+
+    public $timestamps = true;
 }
