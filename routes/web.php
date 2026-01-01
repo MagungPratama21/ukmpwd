@@ -6,7 +6,6 @@ use App\Http\Controllers\UkmController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\NotifikasiController;
-use App\Http\Controllers\Admin\AdminDashboardController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/ukm', [UkmController::class, 'index'])->name('ukm.index');
@@ -36,3 +35,4 @@ Route::middleware('admin.auth')->group(function () {
         return redirect('/login');
     })->name('admin.logout');
 });
+Route::post('/logout', [MahasiswaController::class, 'logout'])->name('logout');

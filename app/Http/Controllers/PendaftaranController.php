@@ -11,7 +11,9 @@ class PendaftaranController extends Controller
 {
     public function create($id)
     {
+        // Ambil data UKM berdasarkan ID dari route lalu kirim ke view
         $ukm = Ukm::findOrFail($id);
+
         return view('form', compact('ukm'));
     }
 
